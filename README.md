@@ -2,6 +2,8 @@ Beaver builds your optimized deployment ready website.
 Feed it a folder and it (will be able to) convert and optimize hipster webfiles like html/css/scss/js to the most optimized version.
 Even better, it will be able to autopublish.
 
+[![Build Status](https://travis-ci.org/theimpossibleastronaut/beaver.svg)](https://travis-ci.org/theimpossibleastronaut/beaver)
+
 Development is done in haxe using the hxcpp builder to create a native binary for your platform.
 
 For now, no manual is provided. Ask for help, figure it out. W/e.
@@ -21,7 +23,6 @@ haxelib install hxcpp
 Build it:
 
 ```
-chmod res/createbin.sh
 haxe build.hxml
 ```
 
