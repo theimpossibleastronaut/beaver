@@ -1,0 +1,5 @@
+-dce full
+-cp src
+-main Bvr.hx
+-cpp hxbuild
+-cmd ./res/createbin.sh
