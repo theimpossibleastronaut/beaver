@@ -1,3 +1,5 @@
+import builder.Project;
+
 class Bvr
 {
 
@@ -18,11 +20,20 @@ class Bvr
 
             switch ( args[ 0 ] ) {
 
-                case "build":
-                    var builder:String;
+                case "init":
+                    Sys.println( "To be implemented" );
 
-                    builder = this.createBuilderFor( Sys.getCwd() );
-                    this.build( builder );
+                case "clean":
+                    var builder:Project;
+
+                    builder = new Project( args.length >= 2 ? args[ 1 ] : Sys.getCwd() );
+                    builder.clean();
+
+                case "build":
+                    var builder:Project;
+
+                    builder = new Project( args.length >= 2 ? args[ 1 ] : Sys.getCwd() );
+                    builder.build();
 
                 case "watch":
                     Sys.println( "To be implemented" );
@@ -48,32 +59,11 @@ class Bvr
     private function printHelpMessage() {
 
         Sys.println( "Usage:" );
-        Sys.println( "bvr build\t\t- build the current folder" );
-        Sys.println( "bvr watch\t\t- watch and build the current folder" );
-        Sys.println( "bvr deploy\t\t- build and if no errors detected, deploy it" );
+        Sys.println( "bvr init <folder>\t\t- write a default .beaver.dam configuration file" );
+        Sys.println( "bvr build <folder>\t\t- build the current or given folder" );
+        Sys.println( "bvr watch <folder>\t\t- watch and build the current or given folder" );
+        //Sys.println( "bvr deploy <folder>\t\t- build and if no errors detected, deploy it" );
         Sys.println( "\r\nIf no .beaver.dam is found in the project folder default settings are used." );
-
-    }
-
-    private function createBuilderFor( myBuildPath:String ):String {
-
-        var guid:String = this.getGuid( myBuildPath );
-
-        Sys.println( "Building project in folder '" + myBuildPath + "'" );
-
-        return guid;
-
-    }
-
-    private function build( myBuilderId:String ) {
-
-        Sys.println( "done." );
-
-    }
-
-    private function getGuid( mySeed:String ):String {
-
-       return haxe.crypto.Md5.encode( mySeed );
 
     }
 
