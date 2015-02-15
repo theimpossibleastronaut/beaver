@@ -24,6 +24,7 @@ class Bvr
                     Sys.println( "To be implemented" );
 
                 case "clean":
+                    Sys.println( "To be fixed" );
                     var builder:Project;
 
                     builder = new Project( args.length >= 2 ? args[ 1 ] : Sys.getCwd() );
@@ -61,6 +62,7 @@ class Bvr
         Sys.println( "Usage:" );
         Sys.println( "bvr init <folder>\t\t- write a default .beaver.dam configuration file" );
         Sys.println( "bvr build <folder>\t\t- build the current or given folder" );
+        Sys.println( "bvr clean <folder>\t\t- clean the build folder in the current or given folder" );
         Sys.println( "bvr watch <folder>\t\t- watch and build the current or given folder" );
         //Sys.println( "bvr deploy <folder>\t\t- build and if no errors detected, deploy it" );
         Sys.println( "\r\nIf no .beaver.dam is found in the project folder default settings are used." );
