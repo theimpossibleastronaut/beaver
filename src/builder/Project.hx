@@ -8,6 +8,7 @@ import builder.action.IBuilderAction;
 import builder.action.CopyAction;
 import builder.action.HTMLAction;
 import builder.action.JSAction;
+import util.Color;
 
 class Project {
 
@@ -43,7 +44,7 @@ class Project {
     public function build():Void {
 
         var startTime:Float = Timer.stamp();
-        Sys.println( "Starting build in folder '" + this.path + "'\r\n" );
+        Sys.println( Color.FGWhite + "Starting build in folder '" + Color.FGCyan + this.path + Color.FGWhite + "'\r\n" + Color.RESET );
 
         if ( !FileSystem.isDirectory( this.destination ) ) {
 
@@ -60,25 +61,25 @@ class Project {
 
             if ( result == "" ) {
 
-                Sys.println( "Failed at building file: " + file );
+                Sys.println( Color.FGRed + "Failed at building file: " + Color.FGCyan + file + Color.RESET );
 
             } else {
 
-                Sys.println( "OK " + file + " [" + result + "]" );
+                Sys.println( Color.FGGreen + "OK " + Color.FGCyan + file + Color.FGGrey + " [" + result + "]" + Color.RESET );
 
             }
 
         }
 
         var endTime:Float = Timer.stamp();
-        Sys.println( "\r\nFinished in " + Math.ceil((endTime - startTime) * 1000000) + "ms" );
-        Sys.println( "Build complete at '" + this.destination + "'" );
+        Sys.println( Color.FGWhite + "\r\nFinished in " + Math.ceil((endTime - startTime) * 1000) + "ms" + Color.RESET );
+        Sys.println( Color.FGWhite + "Build complete at '" + Color.FGCyan + this.destination + Color.FGWhite + "'" + Color.RESET );
 
     }
 
     public function clean():Void {
 
-        Sys.println( "Cleaning folder '" + this.path + "'" );
+        Sys.println( Color.FGWhite + "Cleaning folder '" + Color.FGCyan + this.path + Color.FGWhite + "'" + Color.RESET );
 
         if ( FileSystem.isDirectory( this.destination ) ) {
 

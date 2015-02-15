@@ -1,4 +1,5 @@
 import builder.Project;
+import util.Color;
 
 class Bvr
 {
@@ -11,7 +12,7 @@ class Bvr
     public function new()
     {
 
-        Sys.println( "Beaver - building dams since 2015!\r\n" );
+        Sys.println( Color.FGWhite + "Beaver - building dams since 2015!" + Color.RESET + "\r\n" );
 
         var args:Array<String> = Sys.args();
 
@@ -21,7 +22,7 @@ class Bvr
             switch ( args[ 0 ] ) {
 
                 case "init":
-                    Sys.println( "To be implemented" );
+                    Sys.println( Color.FGRed + "To be implemented" + Color.RESET );
 
                 case "clean":
                     var builder:Project;
@@ -36,10 +37,10 @@ class Bvr
                     builder.build();
 
                 case "watch":
-                    Sys.println( "To be implemented" );
+                    Sys.println( Color.FGRed + "To be implemented" + Color.RESET );
 
                 case "deploy":
-                    Sys.println( "To be implemented" );
+                    Sys.println( Color.FGRed + "To be implemented" + Color.RESET );
 
                 default:
                     this.printHelpMessage();
@@ -58,13 +59,13 @@ class Bvr
 
     private function printHelpMessage() {
 
-        Sys.println( "Usage:" );
-        Sys.println( "bvr init <folder>\t\t- write a default .beaver.dam configuration file" );
-        Sys.println( "bvr build <folder>\t\t- build the current or given folder" );
-        Sys.println( "bvr clean <folder>\t\t- clean the build folder in the current or given folder" );
-        Sys.println( "bvr watch <folder>\t\t- watch and build the current or given folder" );
-        //Sys.println( "bvr deploy <folder>\t\t- build and if no errors detected, deploy it" );
-        Sys.println( "\r\nIf no .beaver.dam is found in the project folder default settings are used." );
+        Sys.println( Color.FGWhite + "Usage:" );
+        Sys.println( "bvr init " + Color.FGCyan + "<folder>" + Color.FGWhite + "\t- write a default .beaver.dam configuration file" );
+        Sys.println( "bvr build " + Color.FGCyan + "<folder>" + Color.FGWhite + "\t- build the current or given folder" );
+        Sys.println( "bvr clean " + Color.FGCyan + "<folder>" + Color.FGWhite + "\t- clean the build folder in the current or given folder" );
+        Sys.println( "bvr watch " + Color.FGCyan + "<folder>" + Color.FGWhite + "\t- watch and build the current or given folder" );
+        //Sys.println( "bvr deploy " + Color.FGCyan + "<folder>" + Color.FGWhite + "\t- build and if no errors detected, deploy it" );
+        Sys.println( "\r\nIf no .beaver.dam is found in the project folder default settings are used." + Color.RESET );
 
     }
 
