@@ -47,3 +47,6 @@ mkdir ~/haxelib
 haxelib setup ~/haxelib
 haxelib install hxcpp
 ```
+
+---
+ - Includes Haxmin from @YellowAfterlife , I don't like git submodules. Only modified its package.

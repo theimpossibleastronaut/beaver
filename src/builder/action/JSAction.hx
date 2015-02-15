@@ -4,6 +4,7 @@ import builder.action.IBuilderAction;
 import sys.io.File;
 import sys.FileSystem;
 import haxe.io.Path;
+import haxmin.Haxmin;
 
 class JSAction implements IBuilderAction
 {
@@ -34,6 +35,10 @@ class JSAction implements IBuilderAction
     }
 
     private function optimizeFileContent( content:String ):String {
+
+        var tks = Haxmin.parse( content );
+        Haxmin.rename( tks, [], false, true );
+        content = Haxmin.print( tks );
 
         return content;
 
