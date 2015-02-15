@@ -78,7 +78,7 @@ class Project {
 
         if ( FileSystem.isDirectory( this.destination ) ) {
 
-            FileSystem.deleteDirectory( this.destination );
+            this.deleteDirectoryRecursive( this.destination );
             FileSystem.createDirectory( this.destination );
 
         }
@@ -153,6 +153,30 @@ class Project {
         }
 
         return result;
+
+    }
+
+    private function deleteDirectoryRecursive( directoryName:String ):Void {
+
+        for ( item in FileSystem.readDirectory( directoryName ) ) {
+
+            var path:String = directoryName + "/" + item;
+            if ( FileSystem.isDirectory( path ) ) {
+
+                this.deleteDirectoryRecursive( path );
+
+            } else {
+
+                FileSystem.deleteFile( path );
+
+            }
+
+        }
+
+        if ( FileSystem.exists( directoryName ) && FileSystem.isDirectory( directoryName ) )
+        {
+            FileSystem.deleteDirectory(directoryName);
+        }
 
     }
 

@@ -24,7 +24,6 @@ class Bvr
                     Sys.println( "To be implemented" );
 
                 case "clean":
-                    Sys.println( "To be fixed" );
                     var builder:Project;
 
                     builder = new Project( args.length >= 2 ? args[ 1 ] : Sys.getCwd() );
