@@ -9,6 +9,8 @@ class CopyAction implements IBuilderAction
 
     public function new() {}
 
+    public function getTypeIdentifier():String { return "COPY"; }
+
     public function isSuitableActionFor( mySourcePath:String ):Bool {
 
         return true;

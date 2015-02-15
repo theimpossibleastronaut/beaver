@@ -6,6 +6,8 @@ import sys.FileSystem;
 
 import builder.action.IBuilderAction;
 import builder.action.CopyAction;
+import builder.action.HTMLAction;
+import builder.action.JSAction;
 
 class Project {
 
@@ -32,6 +34,8 @@ class Project {
         this.destination = this.path + "/beaver-build";
 
         buildActions = new Array<Dynamic>();
+        buildActions.push( new HTMLAction() );
+        buildActions.push( new JSAction() );
         buildActions.push( new CopyAction() );
 
     }
@@ -52,15 +56,15 @@ class Project {
 
         for ( file in this.fileset ) {
 
-            var result:Bool = this.buildFile( file, this.path + "/" + file, this.destination + "/" + file );
+            var result:String = this.buildFile( file, this.path + "/" + file, this.destination + "/" + file );
 
-            if ( !result ) {
+            if ( result == "" ) {
 
                 Sys.println( "Failed at building file: " + file );
 
             } else {
 
-                Sys.println( "OK " + file );
+                Sys.println( "OK " + file + " [" + result + "]" );
 
             }
 
@@ -111,9 +115,9 @@ class Project {
 
     }
 
-    private function buildFile( relativeFile:String, sourcePath:String, destinationPath:String ):Bool {
+    private function buildFile( relativeFile:String, sourcePath:String, destinationPath:String ):String {
 
-        var result:Bool = false;
+        var result:String = "";
 
         for ( builder in this.buildActions ) {
 
@@ -145,7 +149,13 @@ class Project {
 
                 }
 
-                result = builderAction.buildFile( relativeFile, sourcePath, destinationPath );
+                var buildResult:Bool = builderAction.buildFile( relativeFile, sourcePath, destinationPath );
+                if ( buildResult ) {
+
+                    result = builderAction.getTypeIdentifier();
+
+                }
+
                 break;
 
             }
