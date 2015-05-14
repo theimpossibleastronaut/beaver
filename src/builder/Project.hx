@@ -13,6 +13,7 @@ import builder.action.CSSAction;
 import util.Color;
 
 import builder.Configuration;
+import builder.BuildResult;
 
 class Project {
 
@@ -87,26 +88,40 @@ class Project {
 
         this.fileset = new Array<String>();
         this.updateFileset( this.path );
+        var totalSourceSize:Int = 0;
+        var totalDestinationSize:Int = 0;
 
         for ( file in this.fileset ) {
 
-            var result:String = this.buildFile( file, this.path + "/" + file, this.destination + "/" + file );
+            var result:BuildResult = this.buildFile( file, this.path + "/" + file, this.destination + "/" + file );
+            totalSourceSize = totalSourceSize + result.originalSize;
+            totalDestinationSize = totalDestinationSize + result.optimizedSize;
 
-            if ( result == "" ) {
+            if ( !result.success || result.buildType == "" ) {
 
                 Sys.println( Color.FGRed + "Failed at building file: " + Color.FGCyan + file + Color.RESET );
 
             } else {
 
-                Sys.println( Color.FGGreen + "OK " + Color.FGCyan + file + Color.FGGrey + " [" + result + "]" + Color.RESET );
+                var sizeText:String = "";
+
+                if ( result.originalSize != result.optimizedSize ) {
+
+                    sizeText = " " + Color.FGYellow + Math.floor( ( result.optimizedSize / result.originalSize ) * 100 ) + "%";
+
+                }
+
+                Sys.println( Color.FGGreen + "OK " + Color.FGCyan + file + Color.FGGrey + " [" + result.buildType + "]" + sizeText + Color.RESET );
 
             }
 
         }
 
         var endTime:Float = Timer.stamp();
+        var savingPercentage:Int = Math.floor((totalSourceSize / totalDestinationSize) * 100) - 100;
         Sys.println( Color.FGWhite + "\r\nFinished in " + Math.ceil((endTime - startTime) * 1000) + "ms" + Color.RESET );
-        Sys.println( Color.FGWhite + "Build complete at '" + Color.FGCyan + this.destination + Color.FGWhite + "'" + Color.RESET );
+        Sys.println( Color.FGWhite + "Saved " + savingPercentage + "% (" + Math.floor((totalSourceSize - totalDestinationSize) / 1024) + " kb)" + Color.RESET );
+        Sys.println( Color.FGWhite + "\r\nBuild complete at '" + Color.FGCyan + this.destination + Color.FGWhite + "'" + Color.RESET );
 
     }
 
@@ -153,9 +168,9 @@ class Project {
 
     }
 
-    private function buildFile( relativeFile:String, sourcePath:String, destinationPath:String ):String {
+    private function buildFile( relativeFile:String, sourcePath:String, destinationPath:String ):BuildResult {
 
-        var result:String = "";
+        var result:BuildResult;
 
         for ( builder in this.buildActions ) {
 
@@ -187,18 +202,19 @@ class Project {
 
                 }
 
-                var buildResult:Bool = builderAction.buildFile( relativeFile, sourcePath, destinationPath );
-                if ( buildResult ) {
-
-                    result = builderAction.getTypeIdentifier();
-
-                }
+                result = builderAction.buildFile( relativeFile, sourcePath, destinationPath );
+                return result;
 
                 break;
 
             }
 
         }
+
+        result = new BuildResult();
+        result.buildType = "UNKNOWN";
+        result.sourcePath = sourcePath;
+        result.destinationPath = destinationPath;
 
         return result;
 

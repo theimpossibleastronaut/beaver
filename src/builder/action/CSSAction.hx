@@ -6,6 +6,8 @@ import sys.FileSystem;
 import haxe.io.Path;
 import cssmin.Cssmin;
 
+import builder.BuildResult;
+
 class CSSAction implements IBuilderAction
 {
 
@@ -23,14 +25,25 @@ class CSSAction implements IBuilderAction
 
     }
 
-    public function buildFile( relativeFile:String, sourcePath:String, destinationPath:String ):Bool {
+    public function buildFile( relativeFile:String, sourcePath:String, destinationPath:String ):BuildResult {
 
         var content:String = File.getContent( sourcePath );
+        var originalSize:Int = content.length;
 
         content = this.optimizeFileContent( content );
+        var optimizedSize:Int = content.length;
 
         File.saveContent( destinationPath, content );
-        return FileSystem.exists( destinationPath );
+
+        var result:BuildResult = new BuildResult();
+        result.buildType = this.getTypeIdentifier();
+        result.originalSize = originalSize;
+        result.optimizedSize = optimizedSize;
+        result.sourcePath = sourcePath;
+        result.destinationPath = destinationPath;
+        result.success = FileSystem.exists( destinationPath );
+
+        return result;
 
     }
 
