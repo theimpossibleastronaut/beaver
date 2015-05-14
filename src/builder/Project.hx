@@ -3,12 +3,16 @@ package builder;
 import haxe.crypto.Md5;
 import haxe.Timer;
 import sys.FileSystem;
+import sys.io.File;
 
 import builder.action.IBuilderAction;
 import builder.action.CopyAction;
 import builder.action.HTMLAction;
 import builder.action.JSAction;
+import builder.action.CSSAction;
 import util.Color;
+
+import builder.Configuration;
 
 class Project {
 
@@ -18,6 +22,7 @@ class Project {
 
     private var fileset:Array<String>;
     private var buildActions:Array<Dynamic>;
+    private var configuration:Configuration;
 
     public function new( myPath:String ) {
 
@@ -31,13 +36,39 @@ class Project {
 
         }
 
+        if ( FileSystem.exists( this.path + "/.beaver.dam" ) ) {
+
+            this.configuration = new Configuration();
+            this.configuration.fromConfigurationString( File.getContent( this.path + "/.beaver.dam" ) );
+
+        }
+
         // hard for now, will become setting
         this.destination = this.path + "/beaver-build";
 
         buildActions = new Array<Dynamic>();
         buildActions.push( new HTMLAction() );
         buildActions.push( new JSAction() );
+        buildActions.push( new CSSAction() );
         buildActions.push( new CopyAction() );
+
+    }
+
+    public function newConfiguration():Void {
+
+        Sys.println( Color.FGWhite + "Writing .beaver.dam in folder '" + Color.FGCyan + this.path + Color.FGWhite + "'\r\n" + Color.RESET );
+
+        if ( !FileSystem.isDirectory( this.path ) ) {
+
+            Sys.println( Color.FGGreen + "Creating folder '" + Color.FGCyan + this.path + Color.FGWhite + "'\r\n" + Color.RESET );
+
+            FileSystem.createDirectory( this.path );
+
+        }
+
+        var configuration:Configuration = new Configuration();
+        File.saveContent( this.path + "/.beaver.dam", configuration.toConfigurationString() );
+        this.configuration = configuration;
 
     }
 
@@ -47,6 +78,8 @@ class Project {
         Sys.println( Color.FGWhite + "Starting build in folder '" + Color.FGCyan + this.path + Color.FGWhite + "'\r\n" + Color.RESET );
 
         if ( !FileSystem.isDirectory( this.destination ) ) {
+
+            Sys.println( Color.FGGreen + "Creating folder '" + Color.FGCyan + this.path + Color.FGWhite + "'\r\n" + Color.RESET );
 
             FileSystem.createDirectory( this.destination );
 
@@ -88,7 +121,7 @@ class Project {
 
         }
 
-        Sys.println( "All clean!" );
+        Sys.println( Color.FGGreen + "All clean!"  + Color.RESET );
 
     }
 
