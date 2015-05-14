@@ -27,8 +27,6 @@ class Configuration {
             this.ignoreFilesOnBuild = data.ignoreFilesOnBuild;
         }
 
-        Sys.println(this.ignoreFilesOnBuild);
-
     }
 
     public function toConfigurationString():String {
