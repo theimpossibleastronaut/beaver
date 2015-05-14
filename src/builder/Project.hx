@@ -91,12 +91,14 @@ class Project {
         this.updateFileset( this.path );
         var totalSourceSize:Int = 0;
         var totalDestinationSize:Int = 0;
+        var savingSize:Int = 0;
 
         for ( file in this.fileset ) {
 
             var result:BuildResult = this.buildFile( file, this.path + "/" + file, this.destination + "/" + file );
             totalSourceSize = totalSourceSize + result.originalSize;
             totalDestinationSize = totalDestinationSize + result.optimizedSize;
+            savingSize = savingSize + ( result.originalSize - result.optimizedSize );
 
             if ( !result.success || result.buildType == "" ) {
 
@@ -119,9 +121,10 @@ class Project {
         }
 
         var endTime:Float = Timer.stamp();
-        var savingPercentage:Int = Math.floor((totalSourceSize / totalDestinationSize) * 100) - 100;
+
+        var savingPercentage:Int = Math.floor((savingSize / totalSourceSize) * 100);
         Sys.println( Color.FGWhite + "\r\nFinished in " + Math.ceil((endTime - startTime) * 1000) + "ms" + Color.RESET );
-        Sys.println( Color.FGWhite + "Saved " + savingPercentage + "% (" + Math.floor((totalSourceSize - totalDestinationSize) / 1024) + " kb)" + Color.RESET );
+        Sys.println( Color.FGWhite + "Saved " + savingPercentage + "% (" + Math.floor(savingSize / 1024) + " kb)" + Color.RESET );
         Sys.println( Color.FGWhite + "\r\nBuild complete at '" + Color.FGCyan + this.destination + Color.FGWhite + "'" + Color.RESET );
 
     }
