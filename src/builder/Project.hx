@@ -37,9 +37,10 @@ class Project {
 
         }
 
+        this.configuration = new Configuration();
+
         if ( FileSystem.exists( this.path + "/.beaver.dam" ) ) {
 
-            this.configuration = new Configuration();
             this.configuration.fromConfigurationString( File.getContent( this.path + "/.beaver.dam" ) );
 
         }
@@ -148,7 +149,7 @@ class Project {
 
             var fullPath:String = FileSystem.fullPath( folder + "/" + file );
 
-            if ( !Lambda.has( this.configuration.ignoreFilesOnBuild, file ) ) {
+            if ( this.configuration.ignoreFilesOnBuild.indexOf( file ) == -1  ) {
 
                 if ( FileSystem.isDirectory( fullPath ) &&
                      fullPath != this.destination ) {
