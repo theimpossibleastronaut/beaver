@@ -3,6 +3,7 @@ import util.Color;
 
 class Bvr
 {
+    static var VERSION:String = "0.2";
 
     static public function main()
     {
@@ -12,7 +13,7 @@ class Bvr
     public function new()
     {
 
-        Sys.println( Color.FGWhite + "Beaver - building dams since 2015!" + Color.RESET + "\r\n" );
+        Sys.println( Color.FGWhite + "Beaver v" + Bvr.VERSION + " - building dams since 2015!" + Color.RESET + "\r\n" );
 
         var args:Array<String> = Sys.args();
 
