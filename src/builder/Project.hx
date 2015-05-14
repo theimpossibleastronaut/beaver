@@ -133,15 +133,19 @@ class Project {
 
             var fullPath:String = FileSystem.fullPath( folder + "/" + file );
 
-            if ( FileSystem.isDirectory( fullPath ) &&
-                 fullPath != this.destination ) {
+            if ( !Lambda.has( this.configuration.ignoreFilesOnBuild, file ) ) {
 
-                this.updateFileset( fullPath );
+                if ( FileSystem.isDirectory( fullPath ) &&
+                     fullPath != this.destination ) {
 
-            } else if ( !FileSystem.isDirectory( fullPath ) ) {
+                    this.updateFileset( fullPath );
 
-                var relativePath:String = StringTools.replace( fullPath, this.path + "/", "" );
-                this.fileset.push( relativePath );
+                } else if ( !FileSystem.isDirectory( fullPath ) ) {
+
+                    var relativePath:String = StringTools.replace( fullPath, this.path + "/", "" );
+                    this.fileset.push( relativePath );
+
+                }
 
             }
 

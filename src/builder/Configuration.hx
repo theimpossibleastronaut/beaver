@@ -13,6 +13,7 @@ class Configuration {
     public function new() {
 
         this.ignoreFilesOnBuild = new Array<String>();
+        this.ignoreFilesOnBuild.push(".beaver.dam");
         this.ignoreFilesOnBuild.push(".DS_Store");
         this.ignoreFilesOnBuild.push("desktop.ini");
         this.ignoreFilesOnBuild.push("Thumbs.db");
