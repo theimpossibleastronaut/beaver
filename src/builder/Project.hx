@@ -80,7 +80,7 @@ class Project {
 
         if ( !FileSystem.isDirectory( this.destination ) ) {
 
-            Sys.println( Color.FGGreen + "Creating folder '" + Color.FGCyan + this.path + Color.FGWhite + "'\r\n" + Color.RESET );
+            Sys.println( Color.FGGreen + "Creating folder '" + Color.FGCyan + this.destination + Color.FGWhite + "'\r\n" + Color.RESET );
 
             FileSystem.createDirectory( this.destination );
 
